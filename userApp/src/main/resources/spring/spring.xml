@@ -9,4 +9,5 @@
 
     <import resource="spring-mvc.xml"></import>
     <import resource="spring-dubbo.xml"></import>
+
 </beans>
