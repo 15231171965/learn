@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <!--&lt;!&ndash; 提供方应用信息，用于计算依赖关系 &ndash;&gt;-->
+    <context:component-scan base-package="com.yao.userAPI"/>
+
+    <!--<dubbo:application name="user-app" />-->
+
+    <!--&lt;!&ndash; 使用zookeeper注册中心暴露服务地址 &ndash;&gt;-->
+    <!--<dubbo:registry address="zookeeper://127.0.0.1:2181" />-->
+
+    <!--&lt;!&ndash; 用dubbo协议在20880端口暴露服务 &ndash;&gt;-->
+    <!--<dubbo:protocol name="dubbo" port="20880" />-->
+    <!--<dubbo:annotation package="com.yao.userAPI" />-->
+    <!--<dubbo:reference interface="com.yao.userAPI.service.UserService" id="userService"/>-->
+
+
+    <!-- 配置SpringMVC -->
+    <!-- 1:开启SpringMVC注解模式 -->
+    <!-- 简化配置:
+        (1)自动注册DefaultAnnotationHandlerMapping,AnnotationMethodHandlerAdapter
+        (2)提供一系列:数据绑定,数字和日期的format @NumberFormat,@DataTimeFormat,
+            xml,json默认读写支持.
+     -->
+    <mvc:annotation-driven/>
+
+    <!--
+        2:静态资源默认servlet配置
+        1:加入对静态资源的处理:js,gif,png
+        2:允许使用"/"做整体映射
+     -->
+    <mvc:default-servlet-handler/>
+
+    <!--3:配置jsp 显示ViewResolver -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+
+    </bean>
+
+</beans>
