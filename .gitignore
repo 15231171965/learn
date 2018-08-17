@@ -13,12 +13,6 @@ target/
 .project
 .classpath
 
-#idea
-.idea/
-/idea/
-*.ipr
-*.iml
-*.iws
 
 # temp file
 

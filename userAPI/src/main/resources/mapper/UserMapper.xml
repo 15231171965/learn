@@ -8,4 +8,8 @@
     <select id="getListUser" resultType="com.yao.userAPI.entity.User">
         SELECT * FROM USER
     </select>
+
+    <select id="doLogin" resultType="com.yao.userAPI.entity.User">
+        SELECT * from user where password = #{passWord} and user_name = #{userName}
+    </select>
 </mapper>

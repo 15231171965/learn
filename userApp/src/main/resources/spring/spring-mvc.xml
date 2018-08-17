@@ -8,20 +8,17 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd
-        http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
-    <!--&lt;!&ndash; 提供方应用信息，用于计算依赖关系 &ndash;&gt;-->
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:properties-config/redis.properties</value>
+                <value>classpath:properties-config/domainurl.properties</value>
+            </list>
+        </property>
+    </bean>
+
     <context:component-scan base-package="com.yao.userAPI"/>
-
-    <!--<dubbo:application name="user-app" />-->
-
-    <!--&lt;!&ndash; 使用zookeeper注册中心暴露服务地址 &ndash;&gt;-->
-    <!--<dubbo:registry address="zookeeper://127.0.0.1:2181" />-->
-
-    <!--&lt;!&ndash; 用dubbo协议在20880端口暴露服务 &ndash;&gt;-->
-    <!--<dubbo:protocol name="dubbo" port="20880" />-->
-    <!--<dubbo:annotation package="com.yao.userAPI" />-->
-    <!--<dubbo:reference interface="com.yao.userAPI.service.UserService" id="userService"/>-->
 
 
     <!-- 配置SpringMVC -->
@@ -45,7 +42,30 @@
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>
-
     </bean>
 
+    <bean name="doMainUrl" class="com.yao.userAPI.entity.DoMainURL">
+        <property name="doMainUrl" value="${doMainUrl}"/>
+    </bean>
+
+    <bean id="redisHttpSessionConfiguration"
+          class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+        <property name="maxInactiveIntervalInSeconds" value="600"/>
+    </bean>
+
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="100" />
+        <property name="maxIdle" value="10" />
+    </bean>
+
+
+    <bean id="jedisConnectionFactory"
+          class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" destroy-method="destroy">
+        <property name="hostName" value="${redis.host}"/>
+        <property name="port" value="${redis.port}"/>
+        <property name="password" value="${redis.pwd}" />
+        <property name="timeout" value="3000"/>
+        <property name="usePool" value="true"/>
+        <property name="poolConfig" ref="jedisPoolConfig"/>
+    </bean>
 </beans>

@@ -9,9 +9,9 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>userApp</module>
-        <module>userAPI</module>
         <module>core</module>
+        <module>userAPI</module>
+        <module>userApp</module>
     </modules>
     <build>
         <plugins>
